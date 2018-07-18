@@ -1,10 +1,12 @@
-9.1 使用Executor实现的SwingUtilities
-SwingUtilities.java
+# 9.1 使用Executor实现的SwingUtilities
+> SwingUtilities.java
 
-9.2 构建于SwingUtilities之上的Executor 
-GuiExecutor.java
+# 9.2 构建于SwingUtilities之上的Executor 
+> GuiExecutor.java
 
-9.3 简单的事件监听器
+# 9.3 简单的事件监听器
+<pre>
+<code>
 final Random random = new Random();
 final JButton button = new JButton("Change Color");
 ...
@@ -13,8 +15,12 @@ button.addActionListener(new ActionListener() {
         button.setBackground(new Color(random.nextInt()));
     }
 });
+</code>
+</pre>
 
-9.4 将耗时任务绑定到可视化组件
+# 9.4 将耗时任务绑定到可视化组件
+<pre>
+<code>
 ExecutorService backgroundExec = Executors.newCachedThreadPool();
 ...
 button.addActionListener(new ActionListener() {
@@ -26,8 +32,12 @@ button.addActionListener(new ActionListener() {
         });
     }
 });
+</code>
+</pre>
 
-9.5 提供用户反馈的耗时任务
+# 9.5 提供用户反馈的耗时任务
+<pre>
+<code>
 button.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
         button.setEnabled(false);
@@ -48,8 +58,12 @@ button.addActionListener(new ActionListener() {
         });
     }
 });
+</code>
+</pre>
 
-9.6 取消耗时任务
+# 9.6 取消耗时任务
+<pre>
+<code>
 Future<?> runningTask = null; //线程限制的
 ...
 startButton.addActionListener(new ActionListener() {
@@ -76,6 +90,8 @@ cancelButton.addActionListener(new ActionListener() {
             runningTask.cancel(true);
     }
 });
+</code>
+</pre>
 
-9.7 支持取消、完成和进度通知的后台任务类
-BackgroundTask.java
+# 9.7 支持取消、完成和进度通知的后台任务类
+> BackgroundTask.java
