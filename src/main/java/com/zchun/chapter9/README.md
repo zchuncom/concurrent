@@ -95,3 +95,36 @@ cancelButton.addActionListener(new ActionListener() {
 
 # 9.7 支持取消、完成和进度通知的后台任务类
 > BackgroundTask.java
+
+# 9.8 在BackgroundTask中启动一个耗时的、可取消的任务
+<pre>
+<code>
+startButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        class CancelListener implements ActionListener {
+            BackgroundTask<?> task;
+            public void actionPerformed(ActionEvent event) {
+                if (task != null) {
+                    task.cancel(true);
+                }
+            }
+        }
+        final CancelListener listener = new CancelListener();
+        listener.task = new BackgroundTask<Void>() {
+            public void compute() {
+                while(moreWork() && !isCancelled()) {
+                    doSmoeWork();
+                }
+                return null;
+            }
+            public void onCompletion(boolean cancelled, String s, Throwable exception) {
+                cancelButton.removeActionListener(listener);
+                label.setText("done");
+            }
+        }
+        cancelButton.addActionListener(listener);
+        backgroundExec.execute(listener.task);
+    }
+});
+</code>
+</pre>
